@@ -21,7 +21,7 @@
 	-moz-transform:translate(-50%,0);
 	-ms-transform:translate(-50%,0);
 
-	bottom:20px;
+	bottom:25px;
 	overflow: auto;
 	z-index:999;
 
@@ -29,16 +29,26 @@
 
 .skippr-nav-element {
 	cursor:pointer;
-	width:12px;
-	height:12px;
-	background-color: rgba(255,255,255,0.5);
 	float:left;
-	border-radius: 50%;
-	margin:0 4px;
-
+	background-color: rgba(255,255,255,0.5);
+	-webkit-transition: all .25s linear;
 }
 
+.skippr-nav-element-bubble {
+	width:12px;
+	height:12px;
+	border-radius: 50%;
+	margin:0 4px;
+}
+
+.skippr-nav-element-block {
+	width:60px;
+	height:10px;
+}
+
+
+
 .skippr-nav-element:hover, .skippr-nav-element-active {
-	background-color:rgba(255,255,255,0.85);
+	background-color:rgba(255,255,255,1);
 }
 

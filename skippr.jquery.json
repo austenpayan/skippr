@@ -1,0 +1,28 @@
+{
+    "name": "skippr",
+    "title": "skippr",
+    "description": "A simple responsive slideshow plugin",
+    "keywords": [
+        "responsive",
+        "slider",
+        
+    ],
+    "version": "1.0",
+    "author": {
+        "name": "Austen",
+        "url": "http://iamapioneer.com"
+    },
+    "maintainers": [{
+        "name": "Austen Payan",
+        "email": "austenpayan@gmail.com",
+        "url": "http://iamapioneer.com"
+    }],
+    "demo": "http://iamapioneer.com/plugins/skippr",
+    "bugs": "https://github.com/austenpayan/skippr/issues",
+    "homepage": "http://iamapioneer.com/plugins/skippr",
+    "docs": "http://iamapioneer.com/plugins/skippr",
+    "download": "https://http://iamapioneer.com/plugins/skippr/skippr",
+    "dependencies": {
+        "jquery": ">=1.7"
+    }
+}

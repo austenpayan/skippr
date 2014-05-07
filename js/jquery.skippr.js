@@ -2,9 +2,10 @@
 
     var Skippr = (function () {
 
-        function Skippr(element) {
+        function Skippr(element, options) {
         	var _ = this;
             
+            _.settings = $.extend($.fn.skippr.defaults, options);
             _.$element = $(element);
             _.$photos = _.$element.children();
 			_.count = _.$photos.length;
@@ -32,11 +33,24 @@
 
         };
 
+        Skippr.prototype.imgSetup = function() {
+            //Work in progress. Functionality to target img tags instead of divs.
+
+            var _ = this;
+
+
+        }
+
         Skippr.prototype.navBuild = function() {
 
         	var _ = this,
         		container,
         		navElements = [];
+            if (_.settings.navType == "block") {
+                var styleClass = "skippr-nav-element-block";
+            } else if(_.settings.navType == "bubble") {
+               var styleClass = "skippr-nav-element-bubble"; 
+            }
 
         	for (var i = 0; i < _.count; i++) { 
         		//cycle through slideshow divs and display correct number of bubbles.
@@ -44,9 +58,9 @@
 
         		if (i == 0) {
         			//check if first bubble, add respective active class.
-        	 		insert = "<div class='skippr-nav-element skippr-nav-element-active' data-slider='" + (i + 1) + "'></div>";
+        	 		insert = "<div class='skippr-nav-element " + styleClass + " skippr-nav-element-active' data-slider='" + (i + 1) + "'></div>";
         		} else {
-        			insert = "<div class='skippr-nav-element' data-slider='" + (i + 1) + "'></div>";
+        			insert = "<div class='skippr-nav-element " + styleClass + "' data-slider='" + (i + 1) + "'></div>";
         		}
         		//insert bubbles into an array.
         		navElements.push(insert); 
@@ -73,7 +87,7 @@
         		if(item != currentItem) { //prevents animation for repeat click.
         			_.$photos.eq(item - 1).css('z-index', '10').siblings('div').css('z-index', '9');
         			
-        			_.$photos.eq(item - 1).fadeIn( function() {
+        			_.$photos.eq(item - 1).fadeIn(_.settings.speed, function() {
         				$(".visible").fadeOut('fast',function(){
         					$(this).removeClass('visible');
         					_.$photos.eq(item - 1).addClass('visible');
@@ -90,17 +104,23 @@
 
     })();
 
-    $.fn.skippr = function () {
+    $.fn.skippr = function (options) {
         var instance;
         instance = this.data('skippr');
         if (!instance) {
             return this.each(function () {
-                return $(this).data('skippr', new Skippr(this));
+                return $(this).data('skippr', new Skippr(this,options));
             });
         }
         if (options === true) return instance;
         if ($.type(options) === 'string') instance[options]();
         return this;
+    };
+
+    $.fn.skippr.defaults = {
+        speed: 500,
+        navType: "block"
+       
     };
 
     $(function () {
