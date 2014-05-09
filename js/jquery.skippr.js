@@ -82,8 +82,6 @@
         		var item = $(this).attr('data-slider'),
         			currentItem = $(".skippr-nav-element-active").attr('data-slider');
 
-        			console.log(currentItem);
-
         		if(item != currentItem) { //prevents animation for repeat click.
         			_.$photos.eq(item - 1).css('z-index', '10').siblings('div').css('z-index', '9');
         			
