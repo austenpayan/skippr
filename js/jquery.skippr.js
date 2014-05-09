@@ -9,6 +9,7 @@
             _.$element = $(element);
             _.$photos = _.$element.children();
 			_.count = _.$photos.length;
+            _.countString = String(_.count);
 
 			_.init();
             
@@ -19,6 +20,7 @@
         	var _ = this;
         	_.setup();
         	_.navClick();
+            _.arrowClick();
 
         }
 
@@ -55,18 +57,25 @@
 
             var _ = this,
                 previous,
-                next;
+                next,
+                startingPrevious = _.count; // what will be the first previous slide?
 
-            previous = '<nav class="skippr-arrow skippr-previous"></nav>';
-            next = '<nav class="skippr-arrow skippr-next"></nav>';
+            previous = '<nav class="skippr-arrow skippr-previous" data-slider="' + startingPrevious + '"></nav>';
+            next = '<nav class="skippr-arrow skippr-next" data-slider="2"></nav>';
 
             _.$element.append(previous + next);
+
         };
 
         Skippr.prototype.arrowClick = function() {
-            //TODO: complete arrow click functionality.
+            
             var _ = this;
+            
+            $(".skippr-arrow").click(function(){
 
+                _.change($(this));
+
+            });
 
         };
 
@@ -108,24 +117,50 @@
         	var _ = this;
 
         	_.$element.find('.skippr-nav-element').click(function(){
-        		var item = $(this).attr('data-slider'),
-        			currentItem = $(".skippr-nav-element-active").attr('data-slider');
-
-        		if(item != currentItem) { //prevents animation for repeat click.
-        			_.$photos.eq(item - 1).css('z-index', '10').siblings('div').css('z-index', '9');
-        			
-        			_.$photos.eq(item - 1).fadeIn(_.settings.speed, function() {
-        				$(".visible").fadeOut('fast',function(){
-        					$(this).removeClass('visible');
-        					_.$photos.eq(item - 1).addClass('visible');
-        				});
-        			});
-        			$(this).addClass('skippr-nav-element-active').siblings().removeClass('skippr-nav-element-active');
-        		}
+                _.change($(this));
         	});
 
         };
-        
+
+        Skippr.prototype.change = function(element) {
+
+            var _ = this,
+                item = element.attr('data-slider'),
+                currentItem = $(".skippr-nav-element-active").attr('data-slider'),
+                nextData = $(".skippr-next").attr('data-slider'),
+                previousData = $(".skippr-previous").attr('data-slider');
+
+            if(item != currentItem) { //prevents animation for repeat click.
+
+                _.$photos.eq(item - 1).css('z-index', '10').siblings('div').css('z-index', '9');
+                
+                _.$photos.eq(item - 1).fadeIn(_.settings.speed, function() {
+                    $(".visible").fadeOut('fast',function(){
+                        $(this).removeClass('visible');
+                        _.$photos.eq(item - 1).addClass('visible');
+                    });
+                }); 
+
+                $(".skippr-nav-element").eq(item - 1).addClass('skippr-nav-element-active').siblings().removeClass('skippr-nav-element-active');
+                
+                var nextDataAddString = Number(item) + 1,
+                    previousDataAddString = Number(item) - 1;
+
+                if ( item == _.count){ 
+                    $(".skippr-next").attr('data-slider', '1' );
+                } else {
+                    $(".skippr-next").attr('data-slider', nextDataAddString );
+                }
+                
+                if (item == 1) {
+                    $(".skippr-previous").attr('data-slider', _.countString );
+                }  else {
+                   $(".skippr-previous").attr('data-slider', previousDataAddString ); 
+                }
+
+            }
+
+        };
 
         return Skippr;
 
@@ -157,6 +192,3 @@
     }); 
 
 }).call(this);
-
-
-
