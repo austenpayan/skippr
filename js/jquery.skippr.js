@@ -24,7 +24,21 @@
 
         Skippr.prototype.setup = function() {
 
-        	var _ = this;
+        	var _ = this,
+                makeDivs = [];
+
+            if (_.settings.childrenElementType == 'img') {
+                for (i = 0; i < _.count; i++) {
+                    var src = _.$photos.eq(i).attr('src'),
+                        insert = '<div style="background-image: url(' + src + ')"></div>';
+
+                    makeDivs.push(insert);
+                }
+                 makeDivs.join("");
+                 _.$element.append(makeDivs);
+                 _.$element.find('img').remove();
+                 _.$photos = _.$element.children();
+            }
 
         	_.$photos.not(":first-child").hide();
         	_.$photos.eq(0).addClass('visible');
@@ -117,7 +131,8 @@
 
     $.fn.skippr.defaults = {
         speed: 500,
-        navType: "block"
+        navType: 'block',
+        childrenElementType : 'div'
        
     };
 
