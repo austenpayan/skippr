@@ -24,10 +24,11 @@
 
         Skippr.prototype.setup = function() {
 
-        	var _ = this,
-                makeDivs = [];
-
+        	var _ = this;
+                
             if (_.settings.childrenElementType == 'img') {
+                var makeDivs = [];
+
                 for (i = 0; i < _.count; i++) {
                     var src = _.$photos.eq(i).attr('src'),
                         insert = '<div style="background-image: url(' + src + ')"></div>';
@@ -44,16 +45,30 @@
         	_.$photos.eq(0).addClass('visible');
         	_.$element.addClass('skippr');
         	_.navBuild();
+            if(_.settings.arrows == true) {
+                _.arrowBuild();
+            }
 
         };
 
-        Skippr.prototype.imgSetup = function() {
-            //Work in progress. Functionality to target img tags instead of divs.
+        Skippr.prototype.arrowBuild = function() {
 
+            var _ = this,
+                previous,
+                next;
+
+            previous = '<nav class="skippr-arrow skippr-previous"></nav>';
+            next = '<nav class="skippr-arrow skippr-next"></nav>';
+
+            _.$element.append(previous + next);
+        };
+
+        Skippr.prototype.arrowClick = function() {
+            //TODO: complete arrow click functionality.
             var _ = this;
 
 
-        }
+        };
 
         Skippr.prototype.navBuild = function() {
 
@@ -132,7 +147,8 @@
     $.fn.skippr.defaults = {
         speed: 500,
         navType: 'block',
-        childrenElementType : 'div'
+        childrenElementType : 'div',
+        arrows: true
        
     };
 
