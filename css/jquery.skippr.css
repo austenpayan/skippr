@@ -45,6 +45,7 @@
 	float:left;
 	background-color: rgba(255,255,255,0.5);
 	-webkit-transition: all .25s linear;
+	transition: all .25s linear;
 }
 
 .skippr-nav-element-bubble {
@@ -86,6 +87,7 @@
 .skippr-previous {
 	left:2.5%;
 	-webkit-transform:rotate(-45deg);
+	transform:rotate(-45deg);
 	border-top:2px solid white;
 	border-left:2px solid white;
 }
@@ -93,6 +95,7 @@
 .skippr-next {
 	right:3.5%;
 	-webkit-transform:rotate(-45deg);
+	transform:rotate(-45deg);
 	border-bottom:2px solid white;
 	border-right:2px solid white;
 }

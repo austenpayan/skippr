@@ -223,12 +223,13 @@
     };
 
     $.fn.skippr.defaults = {
+        
         speed: 500,
         navType: 'block',
         childrenElementType : 'div',
         arrows: true,
         autoPlay: false,
-        autoPlayDuration: 6000
+        autoPlayDuration: 5000
        
     };
 
