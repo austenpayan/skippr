@@ -3,24 +3,33 @@
     var Skippr = (function () {
 
         function Skippr(element, options) {
-        	var _ = this;
+
+        	var _ = this,
+                timer;
             
             _.settings = $.extend($.fn.skippr.defaults, options);
             _.$element = $(element);
+            _.$parent = _.$element.parent();
             _.$photos = _.$element.children();
 			_.count = _.$photos.length;
             _.countString = String(_.count);
-
 			_.init();
-            
+    
         }
 
         Skippr.prototype.init = function() {
 
         	var _ = this;
+
         	_.setup();
         	_.navClick();
             _.arrowClick();
+
+            if(_.settings.autoPlay == true) {
+                _.autoPlay();
+                _.autoPlayPause();
+            }
+
 
         }
 
@@ -146,7 +155,7 @@
                 var nextDataAddString = Number(item) + 1,
                     previousDataAddString = Number(item) - 1;
 
-                if ( item == _.count){ 
+                if ( item == _.count ){ 
                     $(".skippr-next").attr('data-slider', '1' );
                 } else {
                     $(".skippr-next").attr('data-slider', nextDataAddString );
@@ -159,6 +168,40 @@
                 }
 
             }
+
+        };
+
+        Skippr.prototype.autoPlay = function() {
+
+            var _ = this;
+
+            timer = setInterval(function(){
+                var activeElement = $(".skippr-nav-element-active"),
+                    activeSlide = activeElement.attr('data-slider');
+
+                if( activeSlide == _.count ) {
+                  var elementToInsert = $(".skippr-nav-element").eq(0); 
+                } else {
+                    var elementToInsert = activeElement.next();
+                }
+
+                _.change(elementToInsert);
+                    
+            },_.settings.autoPlayDuration);
+
+        
+
+        };
+
+        Skippr.prototype.autoPlayPause = function() {
+
+            var _ = this;
+
+            _.$parent.hover(function(){
+                clearInterval(timer);
+            }, function() {
+                _.autoPlay();
+            });
 
         };
 
@@ -183,12 +226,14 @@
         speed: 500,
         navType: 'block',
         childrenElementType : 'div',
-        arrows: true
+        arrows: true,
+        autoPlay: false,
+        autoPlayDuration: 6000
        
     };
 
-    $(function () {
-        return new Skippr($('[data-skippr]'));
-    }); 
+    // $(function () {
+    //     return new Skippr($('[data-skippr]'));
+    // }); 
 
 }).call(this);
