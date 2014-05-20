@@ -277,8 +277,8 @@
     };
 
     $.fn.skippr.defaults = {
-        transition: 'fade',
-        speed: 500,
+        transition: 'slide',
+        speed: 1000,
         easing: 'easeOutQuart',
         navType: 'block',
         childrenElementType : 'div',
