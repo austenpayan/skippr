@@ -61,9 +61,6 @@
             if (_.settings.transition == 'slide') {
                 _.setupSlider();
 
-                $(window).resize(function(){
-                    _.setupSlider();
-                });
             }
 
         	_.$photos.eq(0).addClass('visible');
@@ -84,10 +81,10 @@
             if( _.settings.transition == 'slide') {
                 
                 $(window).resize(function() {
-                    // _.$photos.css('left', '0px');
-                    _.setupSlider();
-
+        
                     var currentItem = $(".skippr-nav-element-active").attr('data-slider');
+
+                    _.setupSlider();
 
                     _.$photos.each(function() {
                         var amountLeft = parseFloat($(this).css('left')),
