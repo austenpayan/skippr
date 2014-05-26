@@ -25,6 +25,7 @@
         	_.setup();
         	_.navClick();
             _.arrowClick();
+            _.resize();
 
             if(_.settings.autoPlay == true) {
                 _.autoPlay();
@@ -59,6 +60,10 @@
 
             if (_.settings.transition == 'slide') {
                 _.setupSlider();
+
+                $(window).resize(function(){
+                    _.setupSlider();
+                });
             }
 
         	_.$photos.eq(0).addClass('visible');
@@ -70,6 +75,33 @@
                 _.arrowBuild();
             }
 
+        };
+
+        Skippr.prototype.resize = function() {
+
+            var _ = this;
+
+            if( _.settings.transition == 'slide') {
+                
+                $(window).resize(function() {
+                    // _.$photos.css('left', '0px');
+                    _.setupSlider();
+
+                    var currentItem = $(".skippr-nav-element-active").attr('data-slider');
+
+                    _.$photos.each(function() {
+                        var amountLeft = parseFloat($(this).css('left')),
+                            parentWidth = _.$parent.width(),
+                            moveAmount;
+
+                        if( currentItem > 1 ) {
+                            moveAmount = amountLeft - (parentWidth * (currentItem - 1));
+                        }
+                        $(this).css('left', moveAmount + 'px');
+                    });
+
+                });
+            }
         };
 
         Skippr.prototype.arrowBuild = function() {
@@ -174,14 +206,17 @@
                         if (item > currentItem) {
 
                             moveAmount = amountLeft - (parentWidth * (item - currentItem));
-                            
+                            console.log("its more and " + amountLeft);
                         }
                         if (item < currentItem) {
 
                             moveAmount = amountLeft + (parentWidth * (currentItem - item));
+                            console.log("its less and " + amountLeft);
                         }
 
                         $(this).velocity({'left': moveAmount + 'px'}, _.settings.speed, _.settings.easing);
+
+                        // console.log(amountLeft);
                     });
                 }
 
