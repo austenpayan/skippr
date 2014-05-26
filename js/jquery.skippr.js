@@ -115,18 +115,6 @@
 
         };
 
-        Skippr.prototype.arrowClick = function() {
-            
-            var _ = this;
-            
-            $(".skippr-arrow").click(function(){
-
-                _.change($(this));
-
-            });
-
-        };
-
         Skippr.prototype.navBuild = function() {
 
         	var _ = this,
@@ -157,6 +145,20 @@
         	container = '<nav class="skippr-nav-container">' + navElements + '</nav>';
 
         	_.$element.append(container);
+
+        };
+
+        Skippr.prototype.arrowClick = function() {
+            
+            var _ = this;
+            
+            $(".skippr-arrow").click(function(){
+               
+                if ( !$(this).hasClass('disabled') ) {
+                    _.change($(this));  
+                }
+                
+            });
 
         };
 
@@ -210,10 +212,12 @@
                             moveAmount = amountLeft + (parentWidth * (currentItem - item));
                             console.log("its less and " + amountLeft);
                         }
+                        element.addClass('disabled');
+                        
+                        $(this).velocity({'left': moveAmount + 'px'}, _.settings.speed, _.settings.easing, function(){
+                            element.removeClass('disabled');
+                        });
 
-                        $(this).velocity({'left': moveAmount + 'px'}, _.settings.speed, _.settings.easing);
-
-                        // console.log(amountLeft);
                     });
                 }
 
