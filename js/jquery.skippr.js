@@ -205,12 +205,12 @@
                         if (item > currentItem) {
 
                             moveAmount = amountLeft - (parentWidth * (item - currentItem));
-                            console.log("its more and " + amountLeft);
+                            
                         }
                         if (item < currentItem) {
 
                             moveAmount = amountLeft + (parentWidth * (currentItem - item));
-                            console.log("its less and " + amountLeft);
+                            
                         }
                         element.addClass('disabled');
                         
