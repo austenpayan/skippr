@@ -108,8 +108,8 @@
                 next,
                 startingPrevious = _.count; // what will be the first previous slide?
 
-            previous = '<nav class="skippr-arrow skippr-previous" data-slider="' + startingPrevious + '"></nav>';
-            next = '<nav class="skippr-arrow skippr-next" data-slider="2"></nav>';
+            previous = '<nav class="skippr-nav-item skippr-arrow skippr-previous" data-slider="' + startingPrevious + '"></nav>';
+            next = '<nav class="skippr-nav-item skippr-arrow skippr-next" data-slider="2"></nav>';
 
             _.$element.append(previous + next);
 
@@ -132,9 +132,9 @@
 
         		if (i == 0) {
         			//check if first bubble, add respective active class.
-        	 		insert = "<div class='skippr-nav-element " + styleClass + " skippr-nav-element-active' data-slider='" + (i + 1) + "'></div>";
+        	 		insert = "<div class='skippr-nav-element skippr-nav-item " + styleClass + " skippr-nav-element-active' data-slider='" + (i + 1) + "'></div>";
         		} else {
-        			insert = "<div class='skippr-nav-element " + styleClass + "' data-slider='" + (i + 1) + "'></div>";
+        			insert = "<div class='skippr-nav-element skippr-nav-item " + styleClass + "' data-slider='" + (i + 1) + "'></div>";
         		}
         		//insert bubbles into an array.
         		navElements.push(insert); 
@@ -167,7 +167,10 @@
         	var _ = this;
 
         	_.$element.find('.skippr-nav-element').click(function(){
-                _.change($(this));
+
+                if ( !$(this).hasClass('disabled') ) {
+                    _.change($(this));
+                }
         	});
 
         };
@@ -176,6 +179,7 @@
 
             var _ = this,
                 item = element.attr('data-slider'),
+                allNavItems = $(".skippr-nav-item"),
                 currentItem = $(".skippr-nav-element-active").attr('data-slider'),
                 nextData = $(".skippr-next").attr('data-slider'),
                 previousData = $(".skippr-previous").attr('data-slider');
@@ -212,10 +216,10 @@
                             moveAmount = amountLeft + (parentWidth * (currentItem - item));
                             
                         }
-                        element.addClass('disabled');
+                        allNavItems.addClass('disabled');
                         
                         $(this).velocity({'left': moveAmount + 'px'}, _.settings.speed, _.settings.easing, function(){
-                            element.removeClass('disabled');
+                            allNavItems.removeClass('disabled');
                         });
 
                     });
