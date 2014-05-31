@@ -26,6 +26,7 @@
         	_.navClick();
             _.arrowClick();
             _.resize();
+            _.keyPress();
 
             if(_.settings.autoPlay == true) {
                 _.autoPlay();
@@ -106,9 +107,14 @@
             var _ = this,
                 previous,
                 next,
-                startingPrevious = _.count; // what will be the first previous slide?
+                startingPrevious = _.count, // what will be the first previous slide?
+                previousStyles = '';
 
-            previous = '<nav class="skippr-nav-item skippr-arrow skippr-previous" data-slider="' + startingPrevious + '"></nav>';
+            if ( _.settings.hidePrevious == true ) {
+                previousStyles = 'style="display:none;"'; 
+            }
+
+            previous = '<nav class="skippr-nav-item skippr-arrow skippr-previous" data-slider="' + startingPrevious + '" ' + previousStyles + '></nav>';
             next = '<nav class="skippr-nav-item skippr-arrow skippr-next" data-slider="2"></nav>';
 
             _.$element.append(previous + next);
@@ -120,6 +126,7 @@
         	var _ = this,
         		container,
         		navElements = [];
+
             if (_.settings.navType == "block") {
                 var styleClass = "skippr-nav-element-block";
             } else if(_.settings.navType == "bubble") {
@@ -243,6 +250,9 @@
                    $(".skippr-previous").attr('data-slider', previousDataAddString ); 
                 }
 
+                if( _.settings.hidePrevious == true ) {
+                    _.hidePrevious();
+                }    
             }
 
         };
@@ -282,6 +292,7 @@
         };
 
         Skippr.prototype.setupSlider = function() {
+
             var _ = this,
                 parentWidth = _.$parent.width(),
                 amountLeft;
@@ -297,6 +308,55 @@
 
         }
 
+        Skippr.prototype.keyPress = function() {
+
+            var _ = this;
+
+            if(_.settings.keyboardOnAlways == true) {
+
+                $(document).on('keydown', function(e) {
+                    if(e.which == 39) {
+                        $(".skippr-next").trigger('click');
+                    }
+                    if(e.which == 37) {
+                        $(".skippr-previous").trigger('click');
+                    }
+
+                });
+            }
+
+            if (_.settings.keyboardOnAlways == false) {
+
+                _.$parent.hover(function(){
+
+                    $(document).on('keydown', function(e) {
+                        if(e.which == 39) {
+                            $(".skippr-next").trigger('click');
+                        }
+                        if(e.which == 37) {
+                            $(".skippr-previous").trigger('click');
+                        }
+
+                    });
+                    
+                }, function(){
+                    $(document).off('keydown');
+                });
+            }
+            
+        }
+
+        Skippr.prototype.hidePrevious = function() {
+
+            var _ = this;
+
+            if ($(".skippr-nav-element").eq(0).hasClass('skippr-nav-element-active')) {
+                $(".skippr-previous").fadeOut();
+            } else {
+                $(".skippr-previous").fadeIn();
+            }
+        }
+
 
 
         return Skippr;
@@ -304,7 +364,9 @@
     })();
 
     $.fn.skippr = function (options) {
+
         var instance;
+
         instance = this.data('skippr');
         if (!instance) {
             return this.each(function () {
@@ -324,13 +386,11 @@
         childrenElementType : 'div',
         arrows: true,
         autoPlay: false,
-        autoPlayDuration: 5000
+        autoPlayDuration: 5000,
+        keyboardOnAlways: true,
+        hidePrevious: false
        
     };
-
-    // $(function () {
-    //     return new Skippr($('[data-skippr]'));
-    // }); 
 
 }).call(this);
 
