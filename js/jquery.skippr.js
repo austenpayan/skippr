@@ -83,7 +83,7 @@
                 
                 $(window).resize(function() {
         
-                    var currentItem = $(".skippr-nav-element-active").attr('data-slider');
+                    var currentItem = _.$element.find(".skippr-nav-element-active").attr('data-slider');
 
                     _.setupSlider();
 
@@ -97,6 +97,12 @@
                         }
                         $(this).css('left', moveAmount + 'px');
                     });
+
+                    // Corrects autoPlay timer
+                    if(_.settings.autoPlay === true ) {
+                        clearInterval(timer);
+                        _.autoPlay();
+                    }    
 
                 });
             }
@@ -157,9 +163,10 @@
 
         Skippr.prototype.arrowClick = function() {
             
-            var _ = this;
+            var _ = this,
+                $arrows = _.$element.find(".skippr-arrow");
             
-            $(".skippr-arrow").click(function(){
+            $arrows.click(function(){
                
                 if ( !$(this).hasClass('disabled') ) {
                     _.change($(this));  
@@ -171,9 +178,10 @@
 
         Skippr.prototype.navClick = function() {
 
-        	var _ = this;
+        	var _ = this,
+                $navs = _.$element.find('.skippr-nav-element');
 
-        	_.$element.find('.skippr-nav-element').click(function(){
+        	$navs.click(function(){
 
                 if ( !$(this).hasClass('disabled') ) {
                     _.change($(this));
@@ -186,10 +194,10 @@
 
             var _ = this,
                 item = element.attr('data-slider'),
-                allNavItems = $(".skippr-nav-item"),
-                currentItem = $(".skippr-nav-element-active").attr('data-slider'),
-                nextData = $(".skippr-next").attr('data-slider'),
-                previousData = $(".skippr-previous").attr('data-slider');
+                allNavItems = _.$element.find(".skippr-nav-item"),
+                currentItem = _.$element.find(".skippr-nav-element-active").attr('data-slider'),
+                nextData = _.$element.find(".skippr-next").attr('data-slider'),
+                previousData = _.$element.find(".skippr-previous").attr('data-slider');
 
             if(item != currentItem) { //prevents animation for repeat click.
 
@@ -198,7 +206,7 @@
                     _.$photos.eq(item - 1).css('z-index', '10').siblings('div').css('z-index', '9');
                     
                     _.$photos.eq(item - 1).fadeIn(_.settings.speed, function() {
-                        $(".visible").fadeOut('fast',function(){
+                        _.$element.find(".visible").fadeOut('fast',function(){
                             $(this).removeClass('visible');
                             _.$photos.eq(item - 1).addClass('visible');
                         });
@@ -214,40 +222,46 @@
                             moveAmount;
 
                         if (item > currentItem) {
-
-                            moveAmount = amountLeft - (parentWidth * (item - currentItem));
-                            
+                            moveAmount = amountLeft - (parentWidth * (item - currentItem)); 
                         }
+
                         if (item < currentItem) {
-
-                            moveAmount = amountLeft + (parentWidth * (currentItem - item));
-                            
+                            moveAmount = amountLeft + (parentWidth * (currentItem - item));                           
                         }
+
                         allNavItems.addClass('disabled');
                         
                         $(this).velocity({'left': moveAmount + 'px'}, _.settings.speed, _.settings.easing, function(){
+
                             allNavItems.removeClass('disabled');
+
                         });
+
+                        _.logs("slides sliding");
 
                     });
                 }
 
 
-                $(".skippr-nav-element").eq(item - 1).addClass('skippr-nav-element-active').siblings().removeClass('skippr-nav-element-active');
+                _.$element.find(".skippr-nav-element")
+                          .eq(item - 1)
+                          .addClass('skippr-nav-element-active')
+                          .siblings()
+                          .removeClass('skippr-nav-element-active');
                 
                 var nextDataAddString = Number(item) + 1,
                     previousDataAddString = Number(item) - 1;
 
                 if ( item == _.count ){ 
-                    $(".skippr-next").attr('data-slider', '1' );
+                    _.$element.find(".skippr-next").attr('data-slider', '1' );
                 } else {
-                    $(".skippr-next").attr('data-slider', nextDataAddString );
+                     _.$element.find(".skippr-next").attr('data-slider', nextDataAddString );
                 }
                 
                 if (item == 1) {
-                    $(".skippr-previous").attr('data-slider', _.countString );
+                     _.$element.find(".skippr-previous").attr('data-slider', _.countString );
                 }  else {
-                   $(".skippr-previous").attr('data-slider', previousDataAddString ); 
+                    _.$element.find(".skippr-previous").attr('data-slider', previousDataAddString ); 
                 }
 
                 if( _.settings.hidePrevious == true ) {
@@ -262,11 +276,11 @@
             var _ = this;
 
             timer = setInterval(function(){
-                var activeElement = $(".skippr-nav-element-active"),
+                var activeElement =  _.$element.find(".skippr-nav-element-active"),
                     activeSlide = activeElement.attr('data-slider');
 
                 if( activeSlide == _.count ) {
-                  var elementToInsert = $(".skippr-nav-element").eq(0); 
+                  var elementToInsert =  _.$element.find(".skippr-nav-element").eq(0); 
                 } else {
                     var elementToInsert = activeElement.next();
                 }
@@ -275,18 +289,45 @@
                     
             },_.settings.autoPlayDuration);
 
-        
-
         };
 
         Skippr.prototype.autoPlayPause = function() {
 
             var _ = this;
 
+            // Set up a few listeners to clear and reset the autoPlay timer.
+
             _.$parent.hover(function(){
                 clearInterval(timer);
+
+                _.logs("clearing timer on hover");
+
             }, function() {
                 _.autoPlay();
+
+                _.logs("resetting timer on un-hover");
+
+            });
+
+            // Checks if this tab is not being viewed, and pauses autoPlay timer if not. 
+            $(window).on("blur focus", function(e) {
+
+                var prevType = $(this).data("prevType");
+
+                if (prevType != e.type) {   //  reduce double fire issues
+                    switch (e.type) {
+                        case "blur":
+                            clearInterval(timer);
+                            _.logs('clearing timer on window blur'); 
+                            break;
+                        case "focus":
+                            _.autoPlay();
+                            _.logs('resetting timer on window focus');
+                            break;
+                    }
+                }
+
+                $(this).data("prevType", e.type);
             });
 
         };
@@ -316,10 +357,10 @@
 
                 $(document).on('keydown', function(e) {
                     if(e.which == 39) {
-                        $(".skippr-next").trigger('click');
+                         _.$element.find(".skippr-next").trigger('click');
                     }
                     if(e.which == 37) {
-                        $(".skippr-previous").trigger('click');
+                         _.$element.find(".skippr-previous").trigger('click');
                     }
 
                 });
@@ -331,10 +372,10 @@
 
                     $(document).on('keydown', function(e) {
                         if(e.which == 39) {
-                            $(".skippr-next").trigger('click');
+                             _.$element.find(".skippr-next").trigger('click');
                         }
                         if(e.which == 37) {
-                            $(".skippr-previous").trigger('click');
+                             _.$element.find(".skippr-previous").trigger('click');
                         }
 
                     });
@@ -350,11 +391,19 @@
 
             var _ = this;
 
-            if ($(".skippr-nav-element").eq(0).hasClass('skippr-nav-element-active')) {
-                $(".skippr-previous").fadeOut();
+            if ( _.$element.find(".skippr-nav-element").eq(0).hasClass('skippr-nav-element-active')) {
+                 _.$element.find(".skippr-previous").fadeOut();
             } else {
-                $(".skippr-previous").fadeIn();
+                 _.$element.find(".skippr-previous").fadeIn();
             }
+        }
+
+        Skippr.prototype.logs = function(message) {
+
+            var _ = this;
+
+            _.settings.logs === true && console.log(message);
+
         }
 
 
@@ -388,7 +437,8 @@
         autoPlay: false,
         autoPlayDuration: 5000,
         keyboardOnAlways: true,
-        hidePrevious: false
+        hidePrevious: false,
+        logs: false
        
     };
 
