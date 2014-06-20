@@ -1,7 +1,7 @@
 skippr
 ======
 
-A super simple slideshow plugin for jQuery.
+A fast and light jQuery plugin for creating tasteful slideshows.
 
 ======
 

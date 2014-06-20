@@ -116,7 +116,7 @@
                 startingPrevious = _.count, // what will be the first previous slide?
                 previousStyles = '';
 
-            if ( _.settings.hidePrevious == true ) {
+            if ( _.settings.hidePrevious === true ) {
                 previousStyles = 'style="display:none;"'; 
             }
 
@@ -264,7 +264,7 @@
                     _.$element.find(".skippr-previous").attr('data-slider', previousDataAddString ); 
                 }
 
-                if( _.settings.hidePrevious == true ) {
+                if( _.settings.arrows && _.settings.hidePrevious ) {
                     _.hidePrevious();
                 }    
             }
