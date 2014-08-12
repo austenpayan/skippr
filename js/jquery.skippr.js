@@ -147,9 +147,10 @@
                 }
 
                 makeDivs.join("");
-                // _.$element.children().remove();
                 _.$element.append(makeDivs);
                 _.$photos = _.$element.children();
+                // Reset the count property to reflect the new elements.
+                _.count = _.$photos.length;
 
             }
 
