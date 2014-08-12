@@ -139,7 +139,7 @@
                 var imageArray = _.settings.imgArray;
                 var makeDivs = [];
 
-                for (i = 0; i < imageArray; i++) {
+                for (i = 0; i < imageArray.length; i++) {
                     var src = imageArray[i];
                     var insert = '<div style="background-image: url(' + src + ')"></div>';
 
@@ -147,7 +147,7 @@
                 }
 
                 makeDivs.join("");
-                _.$element.children().remove();
+                // _.$element.children().remove();
                 _.$element.append(makeDivs);
                 _.$photos = _.$element.children();
 
