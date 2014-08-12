@@ -13,16 +13,16 @@ Include jquery.skippr.css inside your head tag and jquery.skippr.js just before 
 ```html
 
 <head>
-        <title>Your Awesome Website</title>        
-        <link rel="stylesheet" href="css/jquery.skippr.css">
-    </head>
-    <body>
-            
+    <title>Your Awesome Website</title>        
+    <link rel="stylesheet" href="css/jquery.skippr.css">
+</head>
+<body>
+        
 
-            
-        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-        <script src="js/jquery.skippr.js"></script>
-    </body>
+        
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="js/jquery.skippr.js"></script>
+</body>
 
 ```
 Create a target element with divs inside, one for each slide, and add a background image with css or the style attribute. Skippr targets div tags inside of the selected element with background-images applied to them. Put this target element inside of a container element styled and positioned to your liking. The target element will completely fill it's parent container element.
