@@ -92,7 +92,15 @@ Pass in an options object as a parameter to the skippr method for customization.
 
 
 
+##Contributing
 
+* clone repo
+* run `npm install`
+* run `bower install`
+
+
+After making changes :
+* run `grunt` to buils sass and js distribution files and activate watcher. Any changes you make will run grunt for you after this point.
 
 
 
