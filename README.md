@@ -14,14 +14,14 @@ Include jquery.skippr.css inside your head tag and jquery.skippr.js just before 
 
 <head>
     <title>Your Awesome Website</title>        
-    <link rel="stylesheet" href="css/jquery.skippr.css">
+    <link rel="stylesheet" href="dist/skippr.css">
 </head>
 <body>
         
 
         
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-    <script src="js/jquery.skippr.js"></script>
+    <script src="dist/skippr.js"></script>
 </body>
 
 ```
