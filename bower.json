@@ -1,9 +1,9 @@
 {
-  "name":         "skippr",
-  "version":      "1.1.0",
-  "author":       "Austen Payan <austenpayan@gmail.com>",
-  "homepage":     "http://iamapioneer.com/plugins/skippr",
-  "description":  "A simple responsive slideshow plugin",
+  "name": "skippr",
+  "version": "1.2.0",
+  "author": "Austen Payan <austenpayan@gmail.com>",
+  "homepage": "http://iamapioneer.com/plugins/skippr",
+  "description": "A simple responsive slideshow plugin",
   "main": [
     "css/jquery.skippr.css",
     "js/jquery.skippr.js",
@@ -19,6 +19,6 @@
     "bower_components"
   ],
   "dependencies": {
-    "jquery": ">= 1.7.0"
+    "jquery": "~2.1.4"
   }
 }
