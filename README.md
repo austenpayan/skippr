@@ -3,7 +3,7 @@ skippr
 
 ####A fast & light jQuery plugin for creating tasteful slideshows.
 
-###[Demo & Instructions](http://www.iamapioneer.com/plugins/skippr)
+###[Demo & Instructions](http://austenpayan.github.io/skippr)
 
 Install via bower `bower install skippr`
 
