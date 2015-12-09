@@ -220,7 +220,11 @@
         <script src="dist/skippr.min.js"></script>
         <script>
             $(document).ready(function() {
-                $("#random").skippr();
+                $("#random").skippr({
+                    autoPlay : true,
+                    autoPlayDuration : 2000,
+                    logs : true
+                });
             });
 
         </script>

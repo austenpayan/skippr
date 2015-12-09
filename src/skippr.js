@@ -5,8 +5,8 @@
 
         function Skippr(element, options) {
 
-        	var _ = this,
-                timer;
+        	var _ = this;
+            var timer = false;
             
             _.settings = $.extend($.fn.skippr.defaults, options);
             _.$element = $(element);
@@ -292,37 +292,36 @@
         };
 
         Skippr.prototype.autoPlayPause = function() {
-
             var _ = this;
 
             // Set up a few listeners to clear and reset the autoPlay timer.
-
             _.$parent.hover(function(){
                 clearInterval(timer);
-
+                timer = false;
                 _.logs("clearing timer on hover");
-
             }, function() {
-                _.autoPlay();
-
-                _.logs("resetting timer on un-hover");
-
+                if (!timer) {
+                    _.autoPlay();
+                    _.logs("resetting timer on un-hover");    
+                }
             });
 
             // Checks if this tab is not being viewed, and pauses autoPlay timer if not. 
             $(window).on("blur focus", function(e) {
-
                 var prevType = $(this).data("prevType");
 
                 if (prevType != e.type) {   //  reduce double fire issues
                     switch (e.type) {
                         case "blur":
                             clearInterval(timer);
+                            timer = false;
                             _.logs('clearing timer on window blur'); 
                             break;
                         case "focus":
-                            _.autoPlay();
-                            _.logs('resetting timer on window focus');
+                            if (!timer) {
+                                _.autoPlay();    
+                                _.logs('resetting timer on window focus');
+                            }
                             break;
                     }
                 }
