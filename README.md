@@ -1,14 +1,14 @@
 skippr
 ======
 
-####A fast & light jQuery plugin for creating tasteful slideshows.
+#### A fast & light jQuery plugin for creating tasteful slideshows.
 
-###[Demo & Instructions](http://austenpayan.github.io/skippr)
+### [Demo & Instructions](http://austenpayan.github.io/skippr)
 
 Install via bower `bower install skippr`
 
 ======
-##The Setup.
+## The Setup.
 Include jquery.skippr.css inside your head tag and jquery.skippr.js just before the closing body tag. Be sure to include jQuery before jquery.skippr.js
 ```html
 
@@ -42,7 +42,7 @@ Create a target element with divs inside, one for each slide, and add a backgrou
 </div>
 
 ```
-##Initiate
+## Initiate
 Just select the target element with jQuery and call the skippr method. Thats it!
 
 ```javascript
@@ -54,7 +54,7 @@ $(document).ready(function(){
 });
 
 ```
-##Options
+## Options
 Pass in an options object as a parameter to the skippr method for customization.
 
 ```javascript
@@ -92,7 +92,7 @@ Pass in an options object as a parameter to the skippr method for customization.
 
 
 
-##Contributing
+## Contributing
 
 * clone repo
 * run `npm install`
