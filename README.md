@@ -1,9 +1,9 @@
 skippr
 ======
 
-#### A fast & light jQuery plugin for creating tasteful slideshows.
+### A fast & light jQuery plugin for creating tasteful slideshows.
 
-### [Demo & Instructions](http://austenpayan.github.io/skippr)
+#### [Demo & Instructions](http://austenpayan.github.io/skippr)
 
 Install via bower `bower install skippr`
 
